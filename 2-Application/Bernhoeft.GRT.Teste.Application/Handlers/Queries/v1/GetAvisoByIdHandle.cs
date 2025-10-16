@@ -26,7 +26,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Queries.v1
         {
             var result = _avisoRepository.ObterByIdAsync(request.Id, cancellationToken);
             if (result == null)
-                return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnBadRequest().AddMessage("Id Inválido."));
+                return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnNotFound().AddMessage("Aviso não encontrado."));
 
             return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnOk(result));
         }

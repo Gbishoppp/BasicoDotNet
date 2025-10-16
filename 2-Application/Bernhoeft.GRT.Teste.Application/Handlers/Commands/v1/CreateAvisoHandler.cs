@@ -25,8 +25,8 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
         {
             var command = _avisoRepository.CriarAviso(request.Titulo, request.Titulo, request.Ativo, cancellationToken);
 
-            //if (!command.IsCompletedSuccessfully)
-                //return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnInternalServerError());
+            if (!command.IsCompletedSuccessfully)
+                return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnInternalServerError());
 
             return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnCreated());
         }

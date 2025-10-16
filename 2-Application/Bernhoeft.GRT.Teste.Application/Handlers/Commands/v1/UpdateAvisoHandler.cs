@@ -33,8 +33,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
 
             await _avisoRepository.AtualizarAviso(aviso, cancellationToken);
 
-            var response = aviso;
-            return OperationResult<GetAvisosResponse>.ReturnOk(response);
+            return OperationResult<GetAvisosResponse>.ReturnOk(aviso);
         }
     }
 }

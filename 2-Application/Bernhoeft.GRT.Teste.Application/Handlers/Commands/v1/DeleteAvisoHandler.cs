@@ -21,10 +21,7 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
         {
             var aviso = await _avisoRepository.GetByIdAsync(request.Id, cancellationToken);
             if (aviso == null)
-                return OperationResult<Unit>.ReturnNoContent();
-
-            if (!aviso.Ativo)
-                return OperationResult<Unit>.ReturnOk(Unit.Value);
+                return OperationResult<Unit>.ReturnBadRequest();
 
             aviso.Ativo = false;
 

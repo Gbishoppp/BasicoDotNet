@@ -1,4 +1,5 @@
-﻿using Bernhoeft.GRT.Teste.Application.Requests.Commands.v1;
+﻿using Bernhoeft.GRT.Core.Models;
+using Bernhoeft.GRT.Teste.Application.Requests.Commands.v1;
 using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
 using Bernhoeft.GRT.Teste.Application.Responses.Queries.v1;
 
@@ -37,11 +38,11 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns>Lista com Todos os Avisos.</returns>
         /// <response code="200">Sucesso.</response>
-        /// <response code="400">Id inválido.</response>
+        /// <response code="404">Id inválido.</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<object> GetAvisoById(int id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisoByIdRequest(id), cancellationToken);
 
@@ -64,14 +65,14 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <param name="id">Id do aviso.</param>
         /// <param name="command">Dados do Aviso</param>
         /// <returns></returns>
-        /// <response code="201">Aviso criado.</response>
+        /// <response code="204">Aviso atualizado.</response>
         [HttpPut]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateAvisoCommand command)
         {
             if (id != command.Id)
-                return BadRequest("Dados inválidos.");
+                return NotFound();
 
             var result = await Mediator.Send(command);
 
@@ -86,7 +87,8 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// </summary>
         /// <param name="id">Id do aviso.</param>
         /// <returns></returns>
-        /// <response code="204">Aviso criado.</response>
+        /// <response code="200">Aviso apagado.</response>
+        /// <response code="500">Error Interno</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -94,7 +96,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         {
             var result = await Mediator.Send(new DeleteAvisoCommand(id));
             if (!result.IsSuccessTypeResult)
-                return NoContent();
+                return (IActionResult)Task.FromResult(OperationResult<GetAvisosResponse>.ReturnInternalServerError());
             return Ok("Aviso apagado com sucesso.");
         }
     }
