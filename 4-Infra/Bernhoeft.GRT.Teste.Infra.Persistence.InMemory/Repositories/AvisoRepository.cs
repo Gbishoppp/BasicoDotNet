@@ -1,4 +1,5 @@
 ﻿using Bernhoeft.GRT.Core.Attributes;
+using Bernhoeft.GRT.Core.EntityFramework.Domain.Interfaces;
 using Bernhoeft.GRT.Core.EntityFramework.Infra;
 using Bernhoeft.GRT.Core.Enums;
 using Bernhoeft.GRT.Teste.Domain.Entities;
@@ -10,13 +11,16 @@ namespace Bernhoeft.GRT.Teste.Infra.Persistence.InMemory.Repositories
     [InjectService(Interface: typeof(IAvisoRepository))]
     public class AvisoRepository : Repository<AvisoEntity>, IAvisoRepository
     {
-        public AvisoRepository(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly IContext _context;
+        public AvisoRepository(IServiceProvider serviceProvider, IContext context) : base(serviceProvider)
         {
+            _context = context;
         }
 
         public Task AtualizarAviso(AvisoEntity aviso, CancellationToken cancellationToken)
         {
             var result = Update(aviso);
+           _context.SaveChanges();
             return Task.CompletedTask;
 
         }
@@ -32,6 +36,7 @@ namespace Bernhoeft.GRT.Teste.Infra.Persistence.InMemory.Repositories
                 DataAlteracao = DateTime.Now
             };
             var result = AddAsync(aviso, cancellationToken);
+            _context.SaveChanges();
             return result;
         }
 
