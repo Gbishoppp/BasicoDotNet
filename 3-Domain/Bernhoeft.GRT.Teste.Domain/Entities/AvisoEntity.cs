@@ -1,4 +1,4 @@
-﻿namespace Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Entities
+﻿namespace Bernhoeft.GRT.Teste.Domain.Entities
 {
     public partial class AvisoEntity
     {
@@ -6,5 +6,7 @@
         public bool Ativo { get; set; } = true;
         public string Titulo { get; set; }
         public string Mensagem { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public DateTime DataAlteracao { get; set; }
     }
 }

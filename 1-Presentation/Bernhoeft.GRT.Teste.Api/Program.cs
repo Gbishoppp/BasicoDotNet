@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Bernhoeft.GRT.Core.Extensions;
 using Bernhoeft.GRT.Teste.Api.Swashbuckle;
 using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
+using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1.Validations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -95,6 +96,9 @@ builder.Services.RegisterServicesFromAssemblyContaining<GetAvisosRequest>();
 ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
 ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pt-BR");
+builder.Services.AddValidatorsFromAssemblyContaining<GetAvisoByIdRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateAvisoCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateAvisoCommandValidator>();
 builder.Services.AddFluentValidationAutoValidation(options => options.DisableDataAnnotationsValidation = true)
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<GetAvisosRequest>();
