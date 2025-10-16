@@ -26,7 +26,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <response code="200">Sucesso.</response>
         /// <response code="204">Sem Avisos.</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<IEnumerable<GetAvisosResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<IEnumerable<AvisosResponse>>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<object> GetAvisos(CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisosRequest(), cancellationToken);
@@ -41,7 +41,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <response code="404">Id inválido.</response>
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDocumentationRestResult<AvisosResponse>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<object> GetAvisoById(int id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetAvisoByIdRequest(id), cancellationToken);
@@ -55,7 +55,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <response code="204">Aviso criado.</response>
         [HttpPost]
         [Route("")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IDocumentationRestResult<AvisosResponse>))]
         public async Task<object> CreateAviso([FromBody] CreateAvisoCommand aviso, CancellationToken cancellationToken)
             => await Mediator.Send(aviso, cancellationToken);
 
@@ -68,7 +68,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// <response code="204">Aviso atualizado.</response>
         [HttpPut]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(IDocumentationRestResult<GetAvisosResponse>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(IDocumentationRestResult<AvisosResponse>))]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateAvisoCommand command)
         {
             if (id != command.Id)
@@ -96,7 +96,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         {
             var result = await Mediator.Send(new DeleteAvisoCommand(id));
             if (!result.IsSuccessTypeResult)
-                return (IActionResult)Task.FromResult(OperationResult<GetAvisosResponse>.ReturnInternalServerError());
+                return (IActionResult)Task.FromResult(OperationResult<AvisosResponse>.ReturnInternalServerError());
             return Ok("Aviso apagado com sucesso.");
         }
     }

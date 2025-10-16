@@ -15,20 +15,20 @@ using System.Threading.Tasks;
 
 namespace Bernhoeft.GRT.Teste.Application.Handlers.Queries.v1
 {
-    public class GetAvisoByIdHandle : IRequestHandler<GetAvisoByIdRequest, IOperationResult<GetAvisosResponse>>
+    public class GetAvisoByIdHandle : IRequestHandler<GetAvisoByIdRequest, IOperationResult<AvisosResponse>>
     {
         private readonly IAvisoRepository _avisoRepository;
         public GetAvisoByIdHandle(IAvisoRepository avisoRepository)
         {
             _avisoRepository = avisoRepository;
         }
-        public Task<IOperationResult<GetAvisosResponse>> Handle(GetAvisoByIdRequest request, CancellationToken cancellationToken)
+        public Task<IOperationResult<AvisosResponse>> Handle(GetAvisoByIdRequest request, CancellationToken cancellationToken)
         {
             var result = _avisoRepository.ObterByIdAsync(request.Id, cancellationToken);
             if (result == null)
-                return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnNotFound().AddMessage("Aviso não encontrado."));
+                return Task.FromResult(OperationResult<AvisosResponse>.ReturnNotFound().AddMessage("Aviso não encontrado."));
 
-            return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnOk(result));
+            return Task.FromResult(OperationResult<AvisosResponse>.ReturnOk(result));
         }
     }
 }

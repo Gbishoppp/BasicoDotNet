@@ -2,7 +2,7 @@
 
 namespace Bernhoeft.GRT.Teste.Application.Responses.Queries.v1
 {
-    public class GetAvisosResponse
+    public class AvisosResponse
     {
         public int Id { get; set; }
         public bool Ativo { get; set; }
@@ -11,7 +11,7 @@ namespace Bernhoeft.GRT.Teste.Application.Responses.Queries.v1
         public DateTime DataCriacao { get; set; }
         public DateTime DataAlteracao { get; set; }
 
-        public static implicit operator GetAvisosResponse(AvisoEntity entity) => new()
+        public static implicit operator AvisosResponse(AvisoEntity entity) => new()
         {
             Id = entity.Id,
             Ativo = entity.Ativo,

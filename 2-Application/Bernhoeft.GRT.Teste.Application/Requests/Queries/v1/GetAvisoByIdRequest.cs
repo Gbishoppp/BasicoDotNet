@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Bernhoeft.GRT.Teste.Application.Requests.Queries.v1
 {
-    public record GetAvisoByIdRequest(int Id) : IRequest<IOperationResult<GetAvisosResponse>>;
+    public record GetAvisoByIdRequest(int Id) : IRequest<IOperationResult<AvisosResponse>>;
 }

@@ -9,5 +9,5 @@ using MediatR;
 
 namespace Bernhoeft.GRT.Teste.Application.Requests.Commands.v1
 {
-    public record UpdateAvisoCommand(int Id, string Titulo, string Mensagem, bool Ativo ) : IRequest<IOperationResult<GetAvisosResponse>>;
+    public record UpdateAvisoCommand(int Id, string Titulo, string Mensagem, bool Ativo ) : IRequest<IOperationResult<AvisosResponse>>;
 }  

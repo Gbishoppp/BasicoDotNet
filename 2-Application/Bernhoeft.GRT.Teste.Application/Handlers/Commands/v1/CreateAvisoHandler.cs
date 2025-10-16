@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
 {
-    public class CreateAvisoHandler : IRequestHandler<CreateAvisoCommand, IOperationResult<GetAvisosResponse>>
+    public class CreateAvisoHandler : IRequestHandler<CreateAvisoCommand, IOperationResult<AvisosResponse>>
     {
         private readonly IAvisoRepository _avisoRepository;
         public CreateAvisoHandler(IAvisoRepository avisoRepository)
@@ -21,14 +21,14 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
             _avisoRepository = avisoRepository;
         }
 
-        public Task<IOperationResult<GetAvisosResponse>> Handle(CreateAvisoCommand request, CancellationToken cancellationToken)
+        public Task<IOperationResult<AvisosResponse>> Handle(CreateAvisoCommand request, CancellationToken cancellationToken)
         {
             var command = _avisoRepository.CriarAviso(request.Titulo, request.Titulo, request.Ativo, cancellationToken);
 
             if (!command.IsCompletedSuccessfully)
-                return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnInternalServerError());
+                return Task.FromResult(OperationResult<AvisosResponse>.ReturnInternalServerError());
 
-            return Task.FromResult(OperationResult<GetAvisosResponse>.ReturnCreated());
+            return Task.FromResult(OperationResult<AvisosResponse>.ReturnCreated());
         }
     }
 }

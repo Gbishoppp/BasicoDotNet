@@ -12,7 +12,7 @@ using MediatR;
 
 namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
 {
-    public class UpdateAvisoHandler : IRequestHandler<UpdateAvisoCommand, IOperationResult<GetAvisosResponse>>
+    public class UpdateAvisoHandler : IRequestHandler<UpdateAvisoCommand, IOperationResult<AvisosResponse>>
     {
         private readonly IAvisoRepository _avisoRepository;
 
@@ -21,19 +21,19 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Commands.v1
             _avisoRepository = avisoRepository;
         }
 
-        public async Task<IOperationResult<GetAvisosResponse>> Handle(UpdateAvisoCommand request, CancellationToken cancellationToken)
+        public async Task<IOperationResult<AvisosResponse>> Handle(UpdateAvisoCommand request, CancellationToken cancellationToken)
         {
             var aviso = await _avisoRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (aviso == null)
-                return OperationResult<GetAvisosResponse>.ReturnNoContent().AddMessage("Aviso não encontrado");
+                return OperationResult<AvisosResponse>.ReturnNoContent().AddMessage("Aviso não encontrado");
 
             aviso.Mensagem = request.Mensagem;
             aviso.DataAlteracao = DateTime.Now;
 
             await _avisoRepository.AtualizarAviso(aviso, cancellationToken);
 
-            return OperationResult<GetAvisosResponse>.ReturnOk(aviso);
+            return OperationResult<AvisosResponse>.ReturnOk(aviso);
         }
     }
 }
